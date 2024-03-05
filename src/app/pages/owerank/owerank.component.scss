@@ -1,0 +1,18 @@
+.toolbar-button {
+    background-color: #007bff00; /* เปลี่ยนสีพื้นหลัง */
+    color: #fff; /* เปลี่ยนสีของตัวอักษร */
+    border: none; /* ลบเส้นขอบ */
+    border-radius: 80px; /* ปรับรูปร่างเป็นวงกลม */
+    padding: 8px 15px; /* ปรับขนาดการเรียงตำแหน่งของข้อความภายในปุ่ม */
+    cursor: pointer; /* เปลี่ยนเป็นเคอร์เซอร์เมื่อชี้ */
+}
+
+/* สไตล์เมื่อชี้หน้าปุ่ม */
+.toolbar-button:hover {
+    background-color: #0f5a555a; /* เปลี่ยนสีพื้นหลังเมื่อชี้ */
+}
+
+/* สไตล์เมื่อคลิกปุ่ม */
+.toolbar-button:active {
+    background-color: #80000969; /* เปลี่ยนสีพื้นหลังเมื่อคลิก */
+}

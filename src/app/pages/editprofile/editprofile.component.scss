@@ -1,0 +1,63 @@
+
+.bottom-toolbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #7c7c7c; 
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+}
+
+.toolbar-button-main {
+    padding: 10px 20px;
+    background-color: #afafaf00; 
+    color: #fff; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toolbar-button:hover {
+    background-color: #777; 
+}
+.input{
+    justify-content:center;align-items: center; 
+}
+.update-button {
+    width: 100px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #494d49;
+    color: rgb(142, 142, 142);
+    text-align: center; /* จัดตำแหน่งข้อความให้อยู่ตรงกลาง */
+    font-size: 18px;
+    line-height: 50px; /* สร้างระยะห่างของข้อความและขอบของปุ่ม */
+    cursor: pointer;
+    margin-top: 20px;
+   
+    display: inline-block; /* ทำให้ปุ่มเป็นพล็อตอนซ้าย */
+    padding: 0; /* เอา padding ออกเพื่อป้องกันการเพิ่มพื้นที่เพิ่มเติมในปุ่ม */
+    border: none; /* เอา border ออกเพื่อไม่ให้มีเส้นขอบ */
+    transition: background-color 0.3s ease;
+    justify-content:center;align-items: center; 
+}
+.toolbar-button {
+    background-color: #007bff00; /* เปลี่ยนสีพื้นหลัง */
+    color: #fff; /* เปลี่ยนสีของตัวอักษร */
+    border: none; /* ลบเส้นขอบ */
+    border-radius: 80px; /* ปรับรูปร่างเป็นวงกลม */
+    padding: 8px 15px; /* ปรับขนาดการเรียงตำแหน่งของข้อความภายในปุ่ม */
+    cursor: pointer; /* เปลี่ยนเป็นเคอร์เซอร์เมื่อชี้ */
+}
+
+/* สไตล์เมื่อชี้หน้าปุ่ม */
+.toolbar-button:hover {
+    background-color: #0f5a555a; /* เปลี่ยนสีพื้นหลังเมื่อชี้ */
+}
+
+/* สไตล์เมื่อคลิกปุ่ม */
+.toolbar-button:active {
+    background-color: #80000969; /* เปลี่ยนสีพื้นหลังเมื่อคลิก */
+}

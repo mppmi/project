@@ -1,0 +1,51 @@
+<div class="top-toolbar">
+    
+    <button class="toolbar-button"style="margin-left: 90pc; margin-top: -20px;">
+        <img src="https://www.svgrepo.com/show/499618/logout.svg" style="height: 40px; width: 40px;">
+    </button>
+
+
+    <div style="margin-left: 120px; margin-right: 120px;">
+        <button mat-button (click)="goback()">
+            <span style="font-size: 25px; padding: 5px; color: yellow;"> < BACK</span>
+        </button>
+    </div>
+    <div style="text-align: center; font-size: 40px;">
+        <span>EDIT</span>
+    </div>
+    <div style="background-color: #1a1a1a; margin-top: 25px; margin-left: auto; margin-right: auto; width: 600px; display: flex; justify-content: center;">
+        <div style="display: flex; flex-direction: column; margin: 25px; padding-top: 25px;justify-content:center;align-items: center; "> 
+            <div style="text-align: center;width: 200px; height: 200px; overflow: hidden; border-radius: 50%; ">
+                <img src="https://bl-data.com/wp-content/uploads/2022/12/nunew.jpg" alt="image" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="text-align: center; font-size:30px;">
+                <span>Nunew</span>
+            </div>
+            <div class="input">
+                <div >
+                    <input id="name" type="text" class="input" data-type="name" style="border: none; background-color: #333; color: #fff; padding: 10px; border-radius: 5px; margin-top: 10px;" placeholder="Name">
+                </div>
+                <div >
+                    <input id="email" type="text" class="input" data-type="email" style="border: none; background-color: #333; color: #fff; padding: 10px; border-radius: 5px; margin-top: 10px;" placeholder="Email">
+                </div>
+                <div >
+                    <input id="pass" type="password" class="input" data-type="password" style="border: none; background-color: #333; color: #fff; padding: 10px; border-radius: 5px; margin-top: 10px;" placeholder="Password">
+                </div>
+                <div >
+                    <input id="new-pass" type="password" class="input" data-type="password" style="border: none; background-color: #333; color: #fff; padding: 10px; border-radius: 5px; margin-top: 10px;" placeholder="New Password">
+                </div>
+            </div>
+            <button class="update-button">
+                Update
+            </button>
+        </div>
+    </div>
+
+    <div class="bottom-toolbar">
+        <button routerLink="" class="toolbar-button-main"><img src="https://www.nicepng.com/png/full/17-178841_home-png-home-icon-free.png" style="width:40px; height: 40px;"></button>
+        <button class="toolbar-button-main"><img src="https://i.pinimg.com/originals/92/25/c5/9225c5849fa25de3b2e6a32feda94d09.png" style="width: 50px;"><i class="fas fa-chart-line"></i></button>
+        <button class="toolbar-button-main"><img src="https://t-pop.com/images/love-hand-1.png" height="100px" alt="icon" style="width: 50px; height: 50px;"><i class="fas fa-vote-yea"></i></button>
+        <button class="toolbar-button-main"><img src="https://cdn3.iconfinder.com/data/icons/simple-files-1/128/Signal-512.png" style="width: 50px; height: 50px;"><i class="fas fa-chart-bar"></i></button>
+        <button class="toolbar-button-main"> <img src="https://icon-library.com/images/person-icon-svg/person-icon-svg-2.jpg" style="width: 50px; height: 50px;"><i class="fas fa-user"></i></button>
+    </div>
+</div>

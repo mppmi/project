@@ -4,6 +4,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {  HttpClient,HttpClientModule } from '@angular/common/http';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet'
 import { ImageModel } from '../../model/project_get';
+import { VoteService } from '../../services/api/vote.service';
+import { PhotoService } from '../../services/api/photo.service';
 @Component({
   selector: 'app-vote',
   standalone: true,
@@ -13,117 +15,109 @@ import { ImageModel } from '../../model/project_get';
 })
 export class VoteComponent implements OnInit{
   photoData: ImageModel[] = [];
-  canClick: boolean = true;
-  photoid : any[] = [];
-  constructor( private location : Location,private http:HttpClient) {
+  image: any[] = [];
+  score: any[] = [];
+  canClick: boolean = true;;
+  image1: any;
+  image2: any;
+  score1: any = 0;
+  score2: any = 0;
+
+  constructor( private location : Location,private http:HttpClient,private voteService: VoteService,private photoService: PhotoService) {
   }
   ngOnInit(): void {
-  this.loadDataAsync(); 
-  this.canClick = true;
+    this.loadDataAsync(); 
+    this.canClick = true;
   }
   async loadDataAsync() { 
-    const url = `http://localhost:3000`;
 
-    this.http.get(url+"/photo", {}).subscribe((data:any)=>{
-      this.photoData = data;
-      console.log(data);
-      this.photoData.forEach(image => {
-        if (image.eloRating === undefined) {
-          image.eloRating = 1000;
-        }
-      });
-      
-      // Shuffle images after loading data
-      this.photoData = this.shuffleArray(this.photoData);
-});
-    console.log('Call Name Completed');   
-  }
+    this.image = await this.photoService.getPhoto();
+    console.log(this.image);
+    this.image1 = this.image[getRandomIndex(this.image)];
+    do {
+      this.image2 = this.image[getRandomIndex(this.image)];
+    } while (this.image2 === this.image1);
+
+      this.score = await this.voteService.getScore(this.image1.photoID);
+      this.score1 = this.score[0].total_score;
+      if(this.score1 == null){
+        this.score1 = 0;
+      }
+      this.score = await this.voteService.getScore(this.image2.photoID);
+      this.score2 = this.score[0].total_score;
+      if(this.score2 == null){
+        this.score2 = 0;
+      }
+    }
   
   goback(): void{
     this.location.back();
   }
-  vote(image: ImageModel): void {
-    if (this.canClick) {
-      // Set initial Elo rating to 1000 if it's not already set
-      if (image.eloRating === undefined) {
-        image.eloRating = 1000;
-      }
-  
-      // Simulate Elo calculation
-      const kFactor = 32; // Adjust as needed
-      const expectedA = 1 / (1 + Math.pow(10, (image.eloRating - this.photoData[0].eloRating) / 400));
-      const expectedB = 1 / (1 + Math.pow(10, (this.photoData[0].eloRating - image.eloRating) / 400));
-  
-      const actualScore = 1; // You might adjust this based on user input
-  
-      // Save the previous Elo ratings
-      const previousEloRating1 = this.photoData[0].eloRating;
-      const previousEloRating2 = this.photoData[1].eloRating;
-  
-      // Calculate new Elo ratings
-      image.eloRating += kFactor * (actualScore - expectedA);
-      this.photoData[0].eloRating += kFactor * ((1 - actualScore) - expectedB);
-  
-      // Sort images based on Elo rating
-      this.photoData.sort((a, b) => b.eloRating - a.eloRating);
-  
-      // Log the scores of the first two images
-      const url = `http://localhost:3000/vote`;
-      console.log('คะแนนของภาพที่ 1: ', this.photoData[0].eloRating.toFixed(0));
-      console.log('คะแนนของภาพที่ 2: ', this.photoData[1].eloRating.toFixed(0));
-  
-      // Check if the order has changed
-      if (
-        this.photoData[0].eloRating === previousEloRating2 &&
-        this.photoData[1].eloRating === previousEloRating1
-      ) {
-        console.log('Order has changed!');
-        // Here you can perform additional actions if the order has changed
-      }
-      const url2 = `http://localhost:3000/photo/`;
-      this.http.put(url2 + this.photoid[0], {
-        sumscore : this.photoData[0].eloRating.toFixed(0)
-      }).subscribe((data:any)=>{
-      console.log(data);
-      });
 
-      this.http.put(url2 + this.photoid[1], {
-        sumscore : this.photoData[1].eloRating.toFixed(0)
-      }).subscribe((data:any)=>{
-      console.log(data);
-      });
-      console.log(this.photoid[0]);
-      console.log(this.photoid[1]);
-      
-      // Shuffle images after voting
-      this.photoData = this.shuffleArray(this.photoData);
+  vote(WinPid: Number, LosePid: Number, check: Number): void {
+    if (this.canClick) {
+      const K = 32;
+      const EA = 1 / (1 + 10 ** ((this.score2 - this.score1) / 400));
+      const EB = 1 / (1 + 10 ** ((this.score1 - this.score2) / 400));      
+  
+      const url = `http://localhost:3000/vote`;
+      console.log('คะแนนของภาพที่ 1: ', this.score1);
+      console.log('คะแนนของภาพที่ 2: ', this.score2);
+
+      if (check == 1) {
+        //กรณี A ชนะ
+        const RA = K * (1 - EA);
+        console.log(RA);
+        const RB = K * (0 - EB);
+        console.log(RB);
+        this.http
+          .post(url + '/win', {
+            photoID: WinPid,
+            score: RA,
+          })
+          .subscribe((data: any) => {
+            console.log(data);
+          });
+        this.http
+          .post(url + '/lose', {
+            photoID: LosePid,
+            score: RB,
+          })
+          .subscribe((data: any) => {
+            console.log(data);
+          });
+      } else if (check == 2) {
+        //กรณี ฺB ชนะ
+        const RA = K * (0 - EA);
+        console.log(RA);
+        const RB = K * (1 - EB);
+        console.log(RB);
+        this.http.post(url + '/win', {
+          photoID: WinPid,
+            score: RB,
+          })
+          .subscribe((data: any) => {
+            console.log(data);
+          });
+        this.http.post(url + '/lose', {
+          photoID: LosePid,
+            score: RA,
+          })
+          .subscribe((data: any) => {
+            console.log(data);
+          });
+      }
   
       // Disable voting for 3 seconds
       this.canClick = false;
       setTimeout(() => {
+        this.loadDataAsync(); 
         this.canClick = true;
       }, 3000); // 3000 milliseconds = 3 seconds
     }
   }
-  
-private shuffleArray(array: any[]): any[] {
-let currentIndex = array.length;
-let temporaryValue;
-let randomIndex;
 
-// While there remain elements to shuffle...
-while (currentIndex !== 0) {
-  randomIndex = Math.floor(Math.random() * currentIndex);
-  currentIndex--;
-
-  // And swap it with the current element.
-  temporaryValue = array[currentIndex];
-  array[currentIndex] = array[randomIndex];
-  array[randomIndex] = temporaryValue;
-  this.photoid[randomIndex] = array[randomIndex].photoID;
 }
-return array;
-}
-  
-
+function getRandomIndex(array: any[]): number {
+  return Math.floor(Math.random() * array.length);
 }

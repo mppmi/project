@@ -5,5 +5,5 @@ import { Injectable } from '@angular/core';
 })
 export class Constants {
   // public readonly API_ENDPOINT: string = 'https://cslab.it.msu.th/tripbooking/trip';
-  public readonly API_ENDPOINT: string = 'http://locallhost:3000';
+  public readonly API_ENDPOINT: string = 'http://localhost:3000';
 }

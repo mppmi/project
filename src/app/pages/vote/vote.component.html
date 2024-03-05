@@ -15,14 +15,18 @@
     </div>
     
     <div class="image-container" style="display: flex; justify-content: center;">
-        <ng-container *ngFor="let photo of photoData; let i = index;">
           <div style="display: flex;">
-            <div *ngIf="i < 2">
-              <img class="image-hover" [src]="photo.photo_url" style="border-radius: 50px; width: 30pc; height: 30pc; margin-right: 100px;" (click)="canClick &&  vote(photo)">
-              <p>Elo Rating: {{ photo.eloRating.toFixed(0) }}</p>
+            <div *ngIf="image1"><p>{{ score1 }}</p>
+              <img class="image-hover" [src]="image1.photo_url" style="border-radius: 50px; width: 30pc; height: 30pc; margin-right: 100px;" (click)="canClick &&  vote(this.image1.photoID,this.image2.photoID,1)">
+              
             </div>
           </div>
-        </ng-container>
+          <div style="display: flex;">
+            <div *ngIf="image2"><p>{{ score2 }}</p>
+              <img class="image-hover" [src]="image2.photo_url" style="border-radius: 50px; width: 30pc; height: 30pc; margin-right: 100px;" (click)="canClick &&  vote(this.image1.photoID,this.image2.photoID,2)">
+              
+            </div>
+          </div>
       
       
       
